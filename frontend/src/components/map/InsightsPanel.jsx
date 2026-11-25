@@ -11,7 +11,7 @@ import { AREAS, RISK, SHIFTS, STATUS, formatDistance } from "../../utils/format"
  */
 export default function InsightsPanel({
   tab, onTab, mode, coverage, doctors, specialties, categories, nearby, filters,
-  onFocusUnit, onFocusZone, onToggleZoneFilter, onToggleCategory, onDeleteZone
+  onFocusUnit, onFocusZone, onToggleZoneFilter, onToggleCategory, onEditZone, onDeleteZone
 }) {
   const tabs = [
     { id: "cobertura", label: "Cobertura", count: coverage.length },
@@ -34,7 +34,7 @@ export default function InsightsPanel({
       <div className="insights__body">
         {tab === "cobertura" && (
           <CoverageList coverage={coverage} filters={filters} onFocusZone={onFocusZone}
-            onToggleZoneFilter={onToggleZoneFilter} onDeleteZone={onDeleteZone} onFocusUnit={onFocusUnit} />
+            onToggleZoneFilter={onToggleZoneFilter} onEditZone={onEditZone} onDeleteZone={onDeleteZone} onFocusUnit={onFocusUnit} />
         )}
         {tab === "personal" && <StaffList doctors={doctors} specialties={specialties} onFocusUnit={onFocusUnit} />}
         {tab === "catalogo" && (
@@ -51,7 +51,7 @@ function focusPayload(unit) {
   return { type: "unit", id: unit.id, lat, lng, ts: Date.now() };
 }
 
-function CoverageList({ coverage, filters, onFocusZone, onToggleZoneFilter, onDeleteZone, onFocusUnit }) {
+function CoverageList({ coverage, filters, onFocusZone, onToggleZoneFilter, onEditZone, onDeleteZone, onFocusUnit }) {
   const [open, setOpen] = useState(null);
 
   if (coverage.length === 0) {
@@ -110,6 +110,7 @@ function CoverageList({ coverage, filters, onFocusZone, onToggleZoneFilter, onDe
               <button className={`btn btn--xs ${filtered ? "btn--primary" : ""}`} onClick={() => onToggleZoneFilter(zone.id)}>
                 {filtered ? "Quitar filtro" : "Filtrar"}
               </button>
+              <button className="btn btn--xs" onClick={() => onEditZone(zone)}>Editar</button>
               <button className="btn btn--xs btn--danger-ghost" onClick={() => onDeleteZone(zone)}>Eliminar</button>
             </div>
           </li>

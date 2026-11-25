@@ -86,9 +86,21 @@ function UnitMarker({ unit, categories, staff, highlighted, onUpdate, onDelete, 
   );
 }
 
+// botones del popup de una zona: cierran el popup y abren el formulario o la confirmación
+function ZoneActions({ zone, onEdit, onDelete }) {
+  const map = useMap();
+
+  return (
+    <div className="zone-pop__actions">
+      <button className="btn btn--sm btn--primary" onClick={() => { map.closePopup(); onEdit(zone); }}>Editar</button>
+      <button className="btn btn--sm btn--danger-ghost" onClick={() => { map.closePopup(); onDelete(zone); }}>Eliminar</button>
+    </div>
+  );
+}
+
 export default function HealthMap({
   locations, zones, coverage, categories, staffByUnit, mode, draftPoint, drawingPaused, nearby, focus,
-  onMapClick, onZoneDrawn, onUpdateUnit, onDeleteUnit, onDeleteZone
+  onMapClick, onZoneDrawn, onUpdateUnit, onDeleteUnit, onEditZone, onDeleteZone
 }) {
   const markerRefs = useRef(new Map());
 
@@ -147,7 +159,7 @@ export default function HealthMap({
                     </div>
                   )}
                   <small className="muted">Trazada por {zone.createdBy?.name || "—"}</small>
-                  <button className="btn btn--sm btn--danger" onClick={() => onDeleteZone(zone)}>Eliminar zona</button>
+                  <ZoneActions zone={zone} onEdit={onEditZone} onDelete={onDeleteZone} />
                 </div>
               </Popup>
             )}

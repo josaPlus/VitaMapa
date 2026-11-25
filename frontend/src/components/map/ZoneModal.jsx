@@ -2,13 +2,27 @@ import { useState } from "react";
 import Modal from "../Modal.jsx";
 import { RISK } from "../../utils/format";
 
-export default function ZoneModal({ coordinates, onCancel, onCreate }) {
-  const [form, setForm] = useState({ name: "", risk: "bajo", notes: "" });
+/**
+ * Formulario de zona con dos modos:
+ *  - crear:  recibe "coordinates" (el polígono recién dibujado)
+ *  - editar: recibe "zone" (la zona guardada) y solo cambia nombre, riesgo y notas
+ */
+export default function ZoneModal({ zone = null, coordinates = null, onCancel, onSubmit }) {
+  const editing = Boolean(zone);
+
+  const initial = {
+    name: zone?.name || "",
+    risk: zone?.risk || "bajo",
+    notes: zone?.notes || ""
+  };
+
+  const [form, setForm] = useState(initial);
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);
 
-  // el anillo que entrega geoman ya viene cerrado (primer vértice = último)
-  const vertices = coordinates[0].length - 1;
+  // el anillo de GeoJSON viene cerrado (primer vértice = último)
+  const ring = editing ? zone.area.coordinates[0] : coordinates[0];
+  const vertices = ring.length - 1;
 
   function update(field) {
     return (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
@@ -20,7 +34,21 @@ export default function ZoneModal({ coordinates, onCancel, onCreate }) {
     setError(null);
 
     try {
-      await onCreate({ ...form, coordinates });
+      if (editing) {
+        // PATCH: solo se mandan los campos que cambiaron
+        const changes = Object.fromEntries(
+          Object.entries(form).filter(([key, value]) => value !== initial[key])
+        );
+
+        if (Object.keys(changes).length === 0) {
+          onCancel();
+          return;
+        }
+
+        await onSubmit(zone.id, changes);
+      } else {
+        await onSubmit({ ...form, coordinates });
+      }
     } catch (err) {
       setError(err);
       setBusy(false);
@@ -28,7 +56,11 @@ export default function ZoneModal({ coordinates, onCancel, onCreate }) {
   }
 
   return (
-    <Modal kicker={`Polígono de ${vertices} vértices`} title="Nombrar zona" onClose={onCancel}>
+    <Modal
+      kicker={`Polígono de ${vertices} vértices`}
+      title={editing ? "Editar zona" : "Nombrar zona"}
+      onClose={onCancel}
+    >
       {error && (
         <div className="alert alert--error">
           <strong>{error.message}</strong>
@@ -55,13 +87,17 @@ export default function ZoneModal({ coordinates, onCancel, onCreate }) {
         </fieldset>
 
         <label className="field">
-          <span>Notas <em>(opcional)</em></span>
-          <input value={form.notes} onChange={update("notes")} maxLength={200} placeholder="Motivo, campaña, observaciones" />
+          <span>Notas / descripción <em>(opcional)</em></span>
+          <textarea rows={3} value={form.notes} onChange={update("notes")} maxLength={200} placeholder="Motivo, campaña, observaciones" />
         </label>
 
         <div className="modal__actions">
-          <button type="button" className="btn btn--ghost" onClick={onCancel}>Descartar trazo</button>
-          <button className="btn btn--primary" disabled={busy}>{busy ? "Guardando…" : "Guardar zona"}</button>
+          <button type="button" className="btn btn--ghost" onClick={onCancel}>
+            {editing ? "Cancelar" : "Descartar trazo"}
+          </button>
+          <button className="btn btn--primary" disabled={busy}>
+            {busy ? "Guardando…" : editing ? "Guardar cambios" : "Guardar zona"}
+          </button>
         </div>
       </form>
     </Modal>

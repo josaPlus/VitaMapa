@@ -43,6 +43,7 @@ export default function MapPage() {
   const [draftPoint, setDraftPoint] = useState(null);
   const [draftZone, setDraftZone] = useState(null);
   const [zoneToDelete, setZoneToDelete] = useState(null);
+  const [zoneToEdit, setZoneToEdit] = useState(null);
   const [nearby, setNearby] = useState(null);
   const [focus, setFocus] = useState(null);
 
@@ -176,6 +177,14 @@ export default function MapPage() {
     await loadContext();
   }
 
+  // PATCH /api/zones/:id -> nombre, nivel de riesgo y notas
+  async function updateZone(id, changes) {
+    const { data } = await api.patch(`/zones/${id}`, changes);
+    setZoneToEdit(null);
+    toast.success("Zona actualizada", data.name);
+    await loadContext();
+  }
+
   async function confirmDeleteZone() {
     try {
       const { data } = await api.delete(`/zones/${zoneToDelete.id}`);
@@ -234,6 +243,7 @@ export default function MapPage() {
             onZoneDrawn={setDraftZone}
             onUpdateUnit={updateUnit}
             onDeleteUnit={deleteUnit}
+            onEditZone={setZoneToEdit}
             onDeleteZone={setZoneToDelete}
           />
         </div>
@@ -269,6 +279,7 @@ export default function MapPage() {
             onFocusZone={focusOnMap}
             onToggleZoneFilter={(id) => setFilters((current) => ({ ...current, zone: current.zone === id ? "all" : id }))}
             onToggleCategory={(id) => setFilters((current) => ({ ...current, category: current.category === id ? "all" : id }))}
+            onEditZone={setZoneToEdit}
             onDeleteZone={setZoneToDelete}
           />
         </div>
@@ -288,7 +299,11 @@ export default function MapPage() {
       )}
 
       {draftZone && (
-        <ZoneModal coordinates={draftZone} onCancel={() => setDraftZone(null)} onCreate={createZone} />
+        <ZoneModal coordinates={draftZone} onCancel={() => setDraftZone(null)} onSubmit={createZone} />
+      )}
+
+      {zoneToEdit && (
+        <ZoneModal zone={zoneToEdit} onCancel={() => setZoneToEdit(null)} onSubmit={updateZone} />
       )}
 
       {zoneToDelete && (

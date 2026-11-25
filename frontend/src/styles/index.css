@@ -785,7 +785,7 @@ button.kpi:hover { border-color: var(--k); }
 .zone-pop__nums div { display: grid; padding: 6px 8px; border-radius: 8px; background: var(--panel-2); }
 .zone-pop__nums strong { font-family: var(--f-display); font-size: 1.1rem; }
 .zone-pop__nums small { font-size: 0.66rem; color: var(--muted); }
-.zone-pop .btn { justify-self: start; }
+.zone-pop__actions { display: flex; gap: 6px; margin-top: 2px; }
 
 /* ---------- tabla ---------- */
 .ledger { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--panel); overflow: hidden; }
