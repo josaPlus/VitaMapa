@@ -83,7 +83,7 @@ export default function UnitPopup({ unit, staff = [], categories, onSave, onDele
   return (
     <div className="unit-card" style={{ "--cat": color }}>
       <div className="unit-card__band">
-        <span>{unit.category?.icon}</span>
+        <span />
         {unit.category?.name || "Sin categoría"}
       </div>
 
@@ -144,7 +144,7 @@ export default function UnitPopup({ unit, staff = [], categories, onSave, onDele
               <span>Categoría</span>
               <select value={form.category} onChange={update("category")}>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>{category.icon} {category.name}</option>
+                  <option key={category.id} value={category.id}>{category.name}</option>
                 ))}
               </select>
             </label>

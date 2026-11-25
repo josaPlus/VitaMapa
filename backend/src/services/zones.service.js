@@ -82,7 +82,7 @@ class ZonesService {
         return Promise.all(zones.map(async (zone) => {
             const units = await LocationModel
                 .find({ location: { $geoWithin: { $geometry: zone.area } } })
-                .populate("category", "name color icon")
+                .populate("category", "name color")
                 .select("name status category location")
                 .sort({ name: 1 });
 

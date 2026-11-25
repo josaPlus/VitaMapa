@@ -48,7 +48,7 @@ export default function LocationsTable({ locations, loading, onSelect }) {
                   <td className="table__strong">{unit.name}</td>
                   <td>
                     <span className="chip-static" style={{ "--cat": unit.category?.color }}>
-                      {unit.category?.icon} {unit.category?.name || "—"}
+                      {unit.category?.name || "—"}
                     </span>
                   </td>
                   <td><span className={`badge badge--${status.tone}`}>{status.label}</span></td>

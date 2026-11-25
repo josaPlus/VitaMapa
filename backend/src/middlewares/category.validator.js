@@ -8,8 +8,7 @@ const categorySchema = {
     color: {
         type: "string", required: true, label: "Color",
         pattern: /^#[0-9a-fA-F]{6}$/, patternMessage: "El color debe ser hexadecimal, por ejemplo #FF5A36"
-    },
-    icon: { type: "string", required: true, min: 1, max: 8, label: "Ícono" }
+    }
 };
 
 module.exports = {

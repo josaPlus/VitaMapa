@@ -66,7 +66,7 @@ export default function NewUnitModal({ point, categories, onCancel, onCreate }) 
             <span>Categoría</span>
             <select value={form.category} onChange={update("category")} required>
               {categories.map((category) => (
-                <option key={category.id} value={category.id}>{category.icon} {category.name}</option>
+                <option key={category.id} value={category.id}>{category.name}</option>
               ))}
             </select>
           </label>

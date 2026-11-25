@@ -97,7 +97,7 @@ function CoverageList({ coverage, filters, onFocusZone, onToggleZoneFilter, onDe
                 {zone.units.map((unit) => (
                   <li key={unit.id}>
                     <button onClick={() => onFocusUnit(focusPayload(unit))}>
-                      <span>{unit.category?.icon}</span>{unit.name}
+                      <i className="cat-dot" style={{ "--c": unit.category?.color }} />{unit.name}
                       <i className={`dot tone--${STATUS[unit.status].tone}`} />
                     </button>
                   </li>
@@ -151,7 +151,7 @@ function StaffList({ doctors, specialties, onFocusUnit }) {
               <small>{doctor.specialty?.name} · {SHIFTS[doctor.shift]} · Céd. {doctor.license}</small>
               {doctor.unit ? (
                 <button className="link-btn" onClick={() => onFocusUnit(focusPayload(doctor.unit))}>
-                  ◉ {doctor.unit.name}
+                  {doctor.unit.name}
                 </button>
               ) : <small className="muted">Sin unidad asignada</small>}
             </div>
@@ -175,7 +175,7 @@ function CatalogSummary({ categories, specialties, filters, onToggleCategory }) 
           <li key={category.id}>
             <button className={filters.category === category.id ? "is-active" : ""} style={{ "--c": category.color }}
               onClick={() => onToggleCategory(category.id)}>
-              <span className="cat-bars__icon">{category.icon}</span>
+              <span className="cat-bars__icon" />
               <span className="cat-bars__name">{category.name}</span>
               <span className="cat-bars__num">{category.locationsCount}</span>
               <span className="cat-bars__track"><i style={{ width: `${(category.locationsCount / total) * 100}%` }} /></span>
@@ -210,7 +210,7 @@ function NearbyList({ nearby, onFocusUnit }) {
           <button onClick={() => onFocusUnit(focusPayload(item))} className={index === 0 ? "is-first" : ""}>
             <span className="near-list__rank">{index + 1}</span>
             <span className="near-list__body">
-              <strong>{item.category?.icon} {item.name}</strong>
+              <strong><i className="cat-dot" style={{ "--c": item.category?.color }} />{item.name}</strong>
               <small>{STATUS[item.status].label}{item.phone ? ` · ${item.phone}` : ""}</small>
             </span>
             <span className="near-list__dist">{formatDistance(item.distance)}</span>

@@ -94,7 +94,7 @@ export default function CoveragePage() {
                 return (
                   <CircleMarker key={`${zone.id}-${unit.id}`} center={[lat, lng]} radius={7}
                     pathOptions={{ color: "#0B1519", weight: 2, fillColor: STATUS_COLORS[unit.status], fillOpacity: 1 }}>
-                    <Tooltip className="unit-tip">{unit.category?.icon} {unit.name}</Tooltip>
+                    <Tooltip className="unit-tip">{unit.name}</Tooltip>
                   </CircleMarker>
                 );
               }))}
@@ -143,7 +143,7 @@ export default function CoveragePage() {
                         {zone.units.length === 0 && <li className="muted">Ninguna unidad registrada en esta zona.</li>}
                         {zone.units.map((unit) => (
                           <li key={unit.id}>
-                            <span>{unit.category?.icon}</span>{unit.name}
+                            <i className="cat-dot" style={{ "--c": unit.category?.color }} />{unit.name}
                             <i className={`dot tone--${STATUS[unit.status].tone}`} />
                           </li>
                         ))}

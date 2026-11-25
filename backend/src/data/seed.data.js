@@ -10,12 +10,12 @@ const demoUser = {
 };
 
 const categories = [
-    { name: "Hospital", color: "#E4572E", icon: "🏥", description: "Hospitales generales y de especialidad" },
-    { name: "Centro de salud", color: "#2E8B57", icon: "🩺", description: "Atención primaria y medicina familiar" },
-    { name: "Farmacia", color: "#3D5AFE", icon: "💊", description: "Farmacias con servicio al público" },
-    { name: "Laboratorio", color: "#8E44AD", icon: "🧪", description: "Análisis clínicos y toma de muestras" },
-    { name: "Vacunación", color: "#E0A100", icon: "💉", description: "Módulos y campañas de vacunación" },
-    { name: "Urgencias", color: "#C2185B", icon: "🚑", description: "Bases de ambulancias y urgencias" }
+    { name: "Hospital", color: "#E4572E", description: "Hospitales generales y de especialidad" },
+    { name: "Centro de salud", color: "#2E8B57", description: "Atención primaria y medicina familiar" },
+    { name: "Farmacia", color: "#3D5AFE", description: "Farmacias con servicio al público" },
+    { name: "Laboratorio", color: "#8E44AD", description: "Análisis clínicos y toma de muestras" },
+    { name: "Vacunación", color: "#E0A100", description: "Módulos y campañas de vacunación" },
+    { name: "Urgencias", color: "#C2185B", description: "Bases de ambulancias y urgencias" }
 ];
 
 const specialties = [

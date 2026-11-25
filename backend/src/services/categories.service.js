@@ -6,7 +6,7 @@ const LocationModel = require("../models/location.model");
 const { assertObjectId } = require("../utils/validation");
 const { buildSearchRegex, escapeRegex } = require("../utils/text");
 
-const EDITABLE_FIELDS = ["name", "description", "color", "icon"];
+const EDITABLE_FIELDS = ["name", "description", "color"];
 
 class CategoriesService {
 
@@ -50,8 +50,7 @@ class CategoriesService {
         return CategoryModel.create({
             name: data.name.trim(),
             description: data.description ? data.description.trim() : "",
-            color: data.color,
-            icon: data.icon.trim()
+            color: data.color
         });
     }
 

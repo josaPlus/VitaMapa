@@ -59,7 +59,7 @@ User ──< Location >── Category          Location.category  → Category 
 | `users` | name, email (único), password (hash bcrypt, `select:false`) |
 | `locations` | name, description, category, status (`disponible`/`saturada`/`cerrada`), phone, **location: Point [lng, lat]**, createdBy |
 | `zones` | name, risk (`bajo`/`medio`/`alto`), notes, **area: Polygon [[[lng, lat], …]]**, createdBy |
-| `categories` | name, icon (emoji), color, description — **CRUD 1** |
+| `categories` | name, color (color del marcador), description — **CRUD 1** |
 | `specialties` | name, area, description — **CRUD 2** |
 | `doctors` | fullName, license (cédula), shift, phone, specialty, unit — **CRUD 3** |
 

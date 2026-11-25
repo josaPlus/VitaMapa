@@ -12,7 +12,7 @@ const zonesService = new ZonesService();
 
 // populate: la categoría y el usuario se regresan con su nombre, no como ObjectId
 const POPULATE = [
-    { path: "category", select: "name color icon" },
+    { path: "category", select: "name color" },
     { path: "createdBy", select: "name email" }
 ];
 
@@ -151,7 +151,7 @@ class LocationsService {
             { $limit: Number(limit) }
         ]);
 
-        await LocationModel.populate(results, { path: "category", select: "name color icon" });
+        await LocationModel.populate(results, { path: "category", select: "name color" });
 
         return results.map((item) => ({
             id: item._id.toString(),
@@ -159,7 +159,7 @@ class LocationsService {
             status: item.status,
             phone: item.phone,
             category: item.category
-                ? { id: item.category._id.toString(), name: item.category.name, color: item.category.color, icon: item.category.icon }
+                ? { id: item.category._id.toString(), name: item.category.name, color: item.category.color }
                 : null,
             location: item.location,
             distance: Math.round(item.distance)

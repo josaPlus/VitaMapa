@@ -82,11 +82,11 @@ export default function AuthPage() {
       <div className="radar" aria-hidden>
         <span className="radar__ring" /><span className="radar__ring" /><span className="radar__ring" />
         <span className="radar__sweep" />
-        <span className="radar__blip" style={{ "--x": "6%", "--y": "12%", "--c": "#3EE6C1" }}>🏥</span>
-        <span className="radar__blip" style={{ "--x": "90%", "--y": "10%", "--c": "#7CB7FF" }}>💊</span>
-        <span className="radar__blip" style={{ "--x": "93%", "--y": "84%", "--c": "#FFB547" }}>💉</span>
-        <span className="radar__blip" style={{ "--x": "5%", "--y": "80%", "--c": "#C79BFF" }}>🧪</span>
-        <span className="radar__blip" style={{ "--x": "46%", "--y": "90%", "--c": "#FF6B7A" }}>🚑</span>
+        <span className="radar__blip" style={{ "--x": "6%", "--y": "12%", "--c": "#3EE6C1" }} />
+        <span className="radar__blip" style={{ "--x": "90%", "--y": "10%", "--c": "#7CB7FF" }} />
+        <span className="radar__blip" style={{ "--x": "93%", "--y": "84%", "--c": "#FFB547" }} />
+        <span className="radar__blip" style={{ "--x": "5%", "--y": "80%", "--c": "#C79BFF" }} />
+        <span className="radar__blip" style={{ "--x": "46%", "--y": "90%", "--c": "#FF6B7A" }} />
       </div>
 
       <div className="auth__layout">

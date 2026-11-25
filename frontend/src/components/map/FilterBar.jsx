@@ -48,7 +48,7 @@ export default function FilterBar({ filters, onChange, categories, zones }) {
             style={{ "--c": category.color }}
             onClick={() => set("category", filters.category === category.id ? "all" : category.id)}
           >
-            <i />{category.icon} {category.name}
+            <i />{category.name}
           </button>
         ))}
       </div>

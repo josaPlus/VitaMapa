@@ -2,43 +2,36 @@ import L from "../../lib/geoman";
 
 const cache = new Map();
 
-function escapeHtml(value = "") {
-  return String(value).replace(/[&<>"']/g, (char) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-  })[char]);
-}
-
-// Marcador circular con halo del color de la categoría; el estado cambia el anillo
+// Marcador circular del color de la categoría; el estado cambia el anillo exterior
 export function unitIcon(category, status, highlighted = false) {
   const color = /^#[0-9a-f]{6}$/i.test(category?.color || "") ? category.color : "#9DB8B5";
-  const emoji = category?.icon || "📍";
-  const key = `${color}|${emoji}|${status}|${highlighted}`;
+  const key = `${color}|${status}|${highlighted}`;
 
   if (!cache.has(key)) {
     cache.set(key, L.divIcon({
       className: "mk-wrap",
-      html: `<div class="mk mk--${status} ${highlighted ? "mk--hl" : ""}" style="--c:${color}">
-               <span class="mk__core">${escapeHtml(emoji)}</span>
-             </div>`,
-      iconSize: [40, 40],
-      iconAnchor: [20, 20],
-      popupAnchor: [0, -18]
+      html: `<div class="mk mk--${status} ${highlighted ? "mk--hl" : ""}" style="--c:${color}"><span class="mk__core"></span></div>`,
+      iconSize: [26, 26],
+      iconAnchor: [13, 13],
+      popupAnchor: [0, -12]
     }));
   }
 
   return cache.get(key);
 }
 
+// punto temporal donde se registrará la nueva ubicación
 export const draftIcon = L.divIcon({
   className: "mk-wrap",
-  html: `<div class="mk mk--draft" style="--c:#3EE6C1"><span class="mk__core">＋</span></div>`,
-  iconSize: [40, 40],
-  iconAnchor: [20, 20]
+  html: `<div class="mk mk--draft"><span class="mk__core"></span></div>`,
+  iconSize: [26, 26],
+  iconAnchor: [13, 13]
 });
 
+// punto de partida de la búsqueda por cercanía
 export const originIcon = L.divIcon({
   className: "mk-wrap",
   html: `<div class="origin"><span></span></div>`,
-  iconSize: [30, 30],
-  iconAnchor: [15, 15]
+  iconSize: [22, 22],
+  iconAnchor: [11, 11]
 });

@@ -24,13 +24,6 @@ const categorySchema = new mongoose.Schema(
             type: String,
             required: true,
             match: /^#[0-9a-fA-F]{6}$/
-        },
-        // emoji que se muestra dentro del marcador
-        icon: {
-            type: String,
-            required: true,
-            trim: true,
-            maxlength: 8
         }
     },
     {

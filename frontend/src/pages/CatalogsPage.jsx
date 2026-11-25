@@ -4,9 +4,9 @@ import CrudSection from "../components/catalogs/CrudSection.jsx";
 import { AREAS, SHIFTS } from "../utils/format";
 
 const TABS = [
-  { id: "categories", label: "Categorías", icon: "◆", note: "Tipos de unidad de salud. Cada ubicación del mapa referencia una categoría." },
-  { id: "specialties", label: "Especialidades", icon: "✚", note: "Especialidades médicas que ofrece la red." },
-  { id: "doctors", label: "Médicos", icon: "☤", note: "Personal médico: referencia a una especialidad y a la unidad donde atiende." }
+  { id: "categories", label: "Categorías", note: "Tipos de unidad de salud. Cada ubicación del mapa referencia una categoría." },
+  { id: "specialties", label: "Especialidades", note: "Especialidades médicas que ofrece la red." },
+  { id: "doctors", label: "Médicos", note: "Personal médico: referencia a una especialidad y a la unidad donde atiende." }
 ];
 
 function CategoriesCrud() {
@@ -16,16 +16,15 @@ function CategoriesCrud() {
       singular="Categoría"
       ending="a"
       endpoint="/categories"
-      describe={(item) => `${item.icon} ${item.name}`}
-      toForm={(item) => ({ name: item.name, icon: item.icon, color: item.color, description: item.description })}
+      describe={(item) => item.name}
+      toForm={(item) => ({ name: item.name, color: item.color, description: item.description })}
       fields={[
         { name: "name", label: "Nombre", required: true, placeholder: "Hospital" },
-        { name: "icon", label: "Ícono (emoji)", required: true, placeholder: "🏥" },
         { name: "color", label: "Color del marcador", type: "color", required: true, defaultValue: "#3EE6C1" },
         { name: "description", label: "Descripción", type: "textarea" }
       ]}
       columns={[
-        { label: "Categoría", render: (item) => <span className="chip-static" style={{ "--cat": item.color }}>{item.icon} {item.name}</span> },
+        { label: "Categoría", render: (item) => <span className="chip-static" style={{ "--cat": item.color }}>{item.name}</span> },
         { label: "Color", render: (item) => <span className="mono small">{item.color}</span> },
         { label: "Descripción", render: (item) => item.description || "—" },
         { label: "Ubicaciones", render: (item) => <span className="mono">{item.locationsCount}</span> }
@@ -94,7 +93,7 @@ function DoctorsCrud() {
         },
         {
           name: "unit", label: "Unidad donde atiende", type: "select",
-          options: units.map((item) => ({ value: item.id, label: `${item.category?.icon || ""} ${item.name}` }))
+          options: units.map((item) => ({ value: item.id, label: item.name }))
         },
         {
           name: "shift", label: "Turno", type: "select", required: true, defaultValue: "matutino",
@@ -131,7 +130,7 @@ export default function CatalogsPage() {
         {TABS.map((item) => (
           <button key={item.id} role="tab" aria-selected={tab === item.id}
             className={`tab ${tab === item.id ? "is-active" : ""}`} onClick={() => setTab(item.id)}>
-            <span>{item.icon}</span>{item.label}
+            {item.label}
           </button>
         ))}
       </div>
