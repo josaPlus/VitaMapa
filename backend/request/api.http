@@ -1,0 +1,63 @@
+### Pruebas con la extensión REST Client de VS Code
+@api = http://localhost:3000/api
+
+### 1) Login (copia el token de la respuesta)
+# @name login
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "revisor@vitamapa.mx",
+  "password": "Vita2026"
+}
+
+###
+@token = {{login.response.body.data.token}}
+
+### Login con contraseña incorrecta -> 401
+POST {{api}}/auth/login
+Content-Type: application/json
+
+{ "email": "revisor@vitamapa.mx", "password": "otra1234" }
+
+### Registro con datos inválidos -> 400
+POST {{api}}/auth/register
+Content-Type: application/json
+
+{ "name": "A", "email": "no-es-correo", "password": "123" }
+
+### Sin token -> 401
+GET {{api}}/locations
+
+### Ubicaciones filtradas en el backend
+GET {{api}}/locations?search=salud&status=disponible
+Authorization: Bearer {{token}}
+
+### Unidades más cercanas a un punto
+GET {{api}}/locations/nearby?lat=21.1221&lng=-101.6823&limit=3
+Authorization: Bearer {{token}}
+
+### Categorías
+GET {{api}}/categories
+Authorization: Bearer {{token}}
+
+### Crear ubicación (reemplaza el id de la categoría)
+POST {{api}}/locations
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Consultorio Comunitario",
+  "description": "Consulta general de lunes a viernes",
+  "category": "<ID_CATEGORIA>",
+  "status": "disponible",
+  "latitude": 21.13,
+  "longitude": -101.68
+}
+
+### Cobertura por zona ($geoWithin)
+GET {{api}}/zones/coverage
+Authorization: Bearer {{token}}
+
+### Ruta inexistente -> 404
+GET {{api}}/no-existe
