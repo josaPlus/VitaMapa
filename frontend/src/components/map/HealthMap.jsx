@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  MapContainer, TileLayer, Marker, Popup, Polygon, Polyline, Tooltip, useMap, useMapEvents, ZoomControl, ScaleControl
+  AttributionControl, MapContainer, TileLayer, Marker, Popup, Polygon, Polyline, Tooltip, useMap, useMapEvents, ZoomControl, ScaleControl
 } from "react-leaflet";
 
 import L from "../../lib/geoman";
@@ -9,7 +9,7 @@ import UnitPopup from "./UnitPopup.jsx";
 import { unitIcon, draftIcon, originIcon } from "./markers";
 import { RISK, formatDistance } from "../../utils/format";
 
-import { CENTER, TILE_ATTRIBUTION, TILE_URL, toLatLngs } from "../../lib/mapConfig";
+import { ATTRIBUTION_PREFIX, CENTER, TILE_ATTRIBUTION, TILE_URL, toLatLngs } from "../../lib/mapConfig";
 
 function ClickCatcher({ onClick }) {
   useMapEvents({
@@ -102,7 +102,8 @@ export default function HealthMap({
   const coverageById = new Map((coverage || []).map((zone) => [zone.id, zone.summary]));
 
   return (
-    <MapContainer center={CENTER} zoom={13} zoomControl={false} keyboard={false} className={`map map--${mode}`}>
+    <MapContainer center={CENTER} zoom={13} zoomControl={false} attributionControl={false} keyboard={false} className={`map map--${mode}`}>
+      <AttributionControl position="bottomright" prefix={ATTRIBUTION_PREFIX} />
       <TileLayer attribution={TILE_ATTRIBUTION} url={TILE_URL} maxZoom={19} />
       <ZoomControl position="bottomright" />
       <ScaleControl position="bottomleft" imperial={false} />

@@ -7,3 +7,6 @@ export const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/c
 
 // GeoJSON guarda [lng, lat]; Leaflet dibuja con [lat, lng]
 export const toLatLngs = (ring) => ring.map(([lng, lat]) => [lat, lng]);
+
+// prefijo de créditos sin la bandera que Leaflet agrega por defecto
+export const ATTRIBUTION_PREFIX = '<a href="https://leafletjs.com">Leaflet</a>';

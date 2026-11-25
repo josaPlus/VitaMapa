@@ -146,7 +146,7 @@ export default function AuthPage() {
             <label className="field">
               <span>Contraseña</span>
               <input type="password" value={form.password} onChange={update("password")}
-                placeholder={isLogin ? "••••••••" : "Mínimo 8, letras y números"}
+                placeholder={isLogin ? "Tu contraseña" : "Mínimo 8, letras y números"}
                 autoComplete={isLogin ? "current-password" : "new-password"} />
               {errors.password && <small className="field__error">{errors.password}</small>}
             </label>

@@ -74,7 +74,7 @@ function CoverageList({ coverage, filters, onFocusZone, onToggleZoneFilter, onDe
                 <strong>{zone.name}</strong>
                 <small>{risk.label} · {total} unidad{total === 1 ? "" : "es"}</small>
               </span>
-              <span className="zone-card__chev">{open === zone.id ? "−" : "+"}</span>
+              <span className="zone-card__chev">{open === zone.id ? "Ocultar" : "Unidades"}</span>
             </button>
 
             <div className="meter" title="Unidades por estado">
@@ -159,7 +159,7 @@ function StaffList({ doctors, specialties, onFocusUnit }) {
         ))}
       </ul>
 
-      <Link to="/catalogos" className="panel-link">Administrar médicos →</Link>
+      <Link to="/catalogos" className="panel-link">Administrar médicos</Link>
     </div>
   );
 }
@@ -194,7 +194,7 @@ function CatalogSummary({ categories, specialties, filters, onToggleCategory }) 
         ))}
       </ul>
 
-      <Link to="/catalogos" className="panel-link">Administrar catálogos →</Link>
+      <Link to="/catalogos" className="panel-link">Administrar catálogos</Link>
     </div>
   );
 }

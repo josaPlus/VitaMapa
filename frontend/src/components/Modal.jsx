@@ -16,7 +16,7 @@ export default function Modal({ title, kicker, onClose, children }) {
             {kicker && <span className="kicker">{kicker}</span>}
             <h2>{title}</h2>
           </div>
-          <button className="icon-btn" onClick={onClose} aria-label="Cerrar">×</button>
+          <button className="btn btn--xs btn--ghost" onClick={onClose}>Cerrar</button>
         </header>
         {children}
       </section>

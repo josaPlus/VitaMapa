@@ -142,7 +142,6 @@ export default function CrudSection({ title, singular, ending = "o", endpoint, f
         <header className="crud__list-head">
           <h3>{title} <span className="mono muted">({items.length})</span></h3>
           <label className="search search--sm">
-            <span aria-hidden>⌕</span>
             <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar…" />
           </label>
         </header>

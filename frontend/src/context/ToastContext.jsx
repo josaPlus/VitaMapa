@@ -2,7 +2,8 @@ import { createContext, useCallback, useContext, useMemo, useState } from "react
 
 const ToastContext = createContext(null);
 
-const ICONS = { success: "✓", error: "!", info: "i" };
+// etiqueta de texto de cada tipo de aviso (sin íconos)
+const LABELS = { success: "Listo", error: "Error", info: "Aviso" };
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
@@ -35,15 +36,15 @@ export function ToastProvider({ children }) {
       <div className="toast-stack" role="status" aria-live="polite">
         {toasts.map((item) => (
           <div key={item.id} className={`toast toast--${item.type}`}>
-            <span className="toast__icon">{ICONS[item.type]}</span>
             <div className="toast__body">
+              <span className="toast__label">{LABELS[item.type]}</span>
               <strong>{item.title}</strong>
               {item.message && <p>{item.message}</p>}
               {item.details && (
                 <ul>{item.details.map((detail) => <li key={detail}>{detail}</li>)}</ul>
               )}
             </div>
-            <button className="toast__close" onClick={() => dismiss(item.id)} aria-label="Cerrar">×</button>
+            <button className="toast__close" onClick={() => dismiss(item.id)} >Cerrar</button>
           </div>
         ))}
       </div>

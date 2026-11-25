@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { CircleMarker, MapContainer, Polygon, TileLayer, Tooltip, useMap } from "react-leaflet";
+import { AttributionControl, CircleMarker, MapContainer, Polygon, TileLayer, Tooltip, useMap } from "react-leaflet";
 
 import L from "../lib/geoman";
 import { api } from "../api/client";
 import { useToast } from "../context/ToastContext.jsx";
-import { CENTER, TILE_ATTRIBUTION, TILE_URL, toLatLngs } from "../lib/mapConfig";
+import { ATTRIBUTION_PREFIX, CENTER, TILE_ATTRIBUTION, TILE_URL, toLatLngs } from "../lib/mapConfig";
 import { RISK, STATUS } from "../utils/format";
 
 const STATUS_COLORS = { disponible: "#3EE6C1", saturada: "#FFB547", cerrada: "#6B7F7D" };
@@ -75,7 +75,8 @@ export default function CoveragePage() {
       {zones?.length > 0 && (
         <div className="coverage__layout">
           <div className="coverage__map panel">
-            <MapContainer center={CENTER} zoom={12} className="map" scrollWheelZoom>
+            <MapContainer center={CENTER} zoom={12} className="map" scrollWheelZoom attributionControl={false}>
+              <AttributionControl position="bottomright" prefix={ATTRIBUTION_PREFIX} />
               <TileLayer attribution={TILE_ATTRIBUTION} url={TILE_URL} maxZoom={19} />
               <FitZone zone={selected} />
               {zones.map((zone) => {

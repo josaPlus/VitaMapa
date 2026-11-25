@@ -12,29 +12,12 @@ import ZoneModal from "../components/map/ZoneModal.jsx";
 import Modal from "../components/Modal.jsx";
 import { STATUS } from "../utils/format";
 
-// íconos de línea (SVG) para las herramientas del mapa
-const svg = (path) => (
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8"
-    strokeLinecap="round" strokeLinejoin="round" aria-hidden>{path}</svg>
-);
-
+// herramientas del mapa: cada una se identifica con su letra inicial
 const MODES = [
-  {
-    id: "registrar", label: "Registrar", help: "Clic en el mapa para registrar una unidad en esa ubicación exacta",
-    icon: svg(<><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" /><path d="M12 6.5v6M9 9.5h6" /></>)
-  },
-  {
-    id: "zona", label: "Zona", help: "Clic para cada vértice · clic en el primero para cerrar el polígono",
-    icon: svg(<path d="M5 8l6-4 8 4-2 10H7z" />)
-  },
-  {
-    id: "cercania", label: "Cercanía", help: "Clic donde está el paciente: las 3 unidades abiertas más cercanas",
-    icon: svg(<><circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="3" /></>)
-  },
-  {
-    id: "explorar", label: "Explorar", help: "Navega libremente · clic en una zona para ver su detalle",
-    icon: svg(<path d="M12 3v18M3 12h18M12 3l-2.5 2.5M12 3l2.5 2.5M12 21l-2.5-2.5M12 21l2.5-2.5M3 12l2.5-2.5M3 12l2.5 2.5M21 12l-2.5-2.5M21 12l-2.5 2.5" />)
-  }
+  { id: "registrar", icon: "R", label: "Registrar", help: "Clic en el mapa para registrar una unidad en esa ubicación exacta" },
+  { id: "zona", icon: "Z", label: "Zona", help: "Clic para cada vértice · clic en el primero para cerrar el polígono" },
+  { id: "cercania", icon: "C", label: "Cercanía", help: "Clic donde está el paciente: las 3 unidades abiertas más cercanas" },
+  { id: "explorar", icon: "E", label: "Explorar", help: "Navega libremente · clic en una zona para ver su detalle" }
 ];
 
 const INITIAL_FILTERS = { search: "", category: "all", status: "all", zone: "all" };
