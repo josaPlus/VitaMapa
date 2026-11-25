@@ -20,10 +20,6 @@ export default function ZoneModal({ zone = null, coordinates = null, onCancel, o
   const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);
 
-  // el anillo de GeoJSON viene cerrado (primer vértice = último)
-  const ring = editing ? zone.area.coordinates[0] : coordinates[0];
-  const vertices = ring.length - 1;
-
   function update(field) {
     return (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
   }
@@ -57,7 +53,7 @@ export default function ZoneModal({ zone = null, coordinates = null, onCancel, o
 
   return (
     <Modal
-      kicker={`Polígono de ${vertices} vértices`}
+      kicker={editing ? "Zona sanitaria" : "Nueva zona"}
       title={editing ? "Editar zona" : "Nombrar zona"}
       onClose={onCancel}
     >

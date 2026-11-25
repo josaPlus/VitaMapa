@@ -98,9 +98,9 @@ export default function AuthPage() {
             marca zonas de riesgo y encuentra la unidad abierta más cercana a un paciente.
           </p>
           <ul className="auth__facts">
-            <li><b>$geoNear</b> unidad más cercana</li>
-            <li><b>$geoWithin</b> cobertura por zona</li>
-            <li><b>2dsphere</b> índices geoespaciales</li>
+            <li>Unidad abierta más cercana</li>
+            <li>Zonas de riesgo sanitario</li>
+            <li>Disponibilidad al momento</li>
           </ul>
         </header>
 

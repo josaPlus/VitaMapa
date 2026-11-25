@@ -49,10 +49,10 @@ export default function CoveragePage() {
     <div className="coverage">
       <header className="page-head">
         <div>
-          <span className="kicker">Análisis espacial · $geoWithin</span>
+          <span className="kicker">Zonas sanitarias</span>
           <h1>Cobertura por zona</h1>
           <p className="muted">
-            Para cada polígono se buscan en MongoDB las unidades cuyo punto cae dentro. Selecciona una zona para verla en el mapa.
+            Cuántas unidades de salud hay dentro de cada zona y en qué estado están. Selecciona una zona para verla en el mapa.
           </p>
         </div>
         <div className="kpis kpis--inline">

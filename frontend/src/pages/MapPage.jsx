@@ -14,8 +14,8 @@ import { STATUS } from "../utils/format";
 
 // herramientas del mapa: cada una se identifica con su letra inicial
 const MODES = [
-  { id: "registrar", icon: "R", label: "Registrar", help: "Clic en el mapa para registrar una unidad en esa ubicación exacta" },
-  { id: "zona", icon: "Z", label: "Zona", help: "Clic para cada vértice · clic en el primero para cerrar el polígono" },
+  { id: "registrar", icon: "R", label: "Registrar", help: "Haz clic en el mapa donde está la unidad para registrarla" },
+  { id: "zona", icon: "Z", label: "Zona", help: "Haz clic para marcar cada esquina de la zona · clic en el primer punto para terminar" },
   { id: "cercania", icon: "C", label: "Cercanía", help: "Clic donde está el paciente: las 3 unidades abiertas más cercanas" },
   { id: "explorar", icon: "E", label: "Explorar", help: "Navega libremente · clic en una zona para ver su detalle" }
 ];
@@ -172,7 +172,7 @@ export default function MapPage() {
   async function createZone(payload) {
     const { data } = await api.post("/zones", payload);
     setDraftZone(null);
-    toast.success("Zona guardada", `${data.name} se guardó como GeoJSON Polygon.`);
+    toast.success("Zona guardada", `${data.name} ya aparece en el mapa.`);
     setPanelTab("cobertura");
     await loadContext();
   }
@@ -308,7 +308,7 @@ export default function MapPage() {
 
       {zoneToDelete && (
         <Modal kicker="Confirmar" title="¿Eliminar zona?" onClose={() => setZoneToDelete(null)}>
-          <p>Se borrará <strong>{zoneToDelete.name}</strong> de MongoDB. Las unidades dentro de ella no se eliminan.</p>
+          <p>Se borrará la zona <strong>{zoneToDelete.name}</strong>. Las unidades de salud que están dentro no se eliminan.</p>
           <div className="modal__actions">
             <button className="btn btn--ghost" onClick={() => setZoneToDelete(null)}>Cancelar</button>
             <button className="btn btn--danger" onClick={confirmDeleteZone}>Sí, eliminar</button>

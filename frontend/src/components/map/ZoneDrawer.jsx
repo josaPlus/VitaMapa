@@ -15,7 +15,14 @@ export default function ZoneDrawer({ active, onDrawn }) {
   }, [onDrawn]);
 
   useEffect(() => {
-    map.pm.setLang("es");
+    // textos propios para las ayudas que muestra la herramienta de dibujo
+    map.pm.setLang("vitamapa", {
+      tooltips: {
+        firstVertex: "Haz clic para marcar el primer punto de la zona",
+        continueLine: "Haz clic para seguir marcando la zona",
+        finishPoly: "Haz clic en el primer punto para terminar"
+      }
+    }, "es");
 
     function handleCreate(event) {
       const geojson = event.layer.toGeoJSON();

@@ -37,7 +37,7 @@ export default function NewUnitModal({ point, categories, onCancel, onCreate }) 
   }
 
   return (
-    <Modal kicker="Nueva ubicación exacta" title="Registrar unidad de salud" onClose={onCancel}>
+    <Modal kicker="Nuevo registro" title="Registrar unidad de salud" onClose={onCancel}>
       {error && (
         <div className="alert alert--error">
           <strong>{error.message}</strong>
@@ -93,7 +93,6 @@ export default function NewUnitModal({ point, categories, onCancel, onCreate }) 
             <input className="mono" value={form.longitude} onChange={update("longitude")} required />
           </label>
         </div>
-        <p className="hint">Se guardará como GeoJSON <code>Point [{form.longitude}, {form.latitude}]</code></p>
 
         <div className="modal__actions">
           <button type="button" className="btn btn--ghost" onClick={onCancel}>Cancelar</button>

@@ -4,9 +4,9 @@ import CrudSection from "../components/catalogs/CrudSection.jsx";
 import { AREAS, SHIFTS } from "../utils/format";
 
 const TABS = [
-  { id: "categories", label: "Categorías", note: "Tipos de unidad de salud. Cada ubicación del mapa referencia una categoría." },
+  { id: "categories", label: "Categorías", note: "Tipos de unidad de salud. El color de cada categoría es el que se usa en el mapa." },
   { id: "specialties", label: "Especialidades", note: "Especialidades médicas que ofrece la red." },
-  { id: "doctors", label: "Médicos", note: "Personal médico: referencia a una especialidad y a la unidad donde atiende." }
+  { id: "doctors", label: "Médicos", note: "Personal médico, su especialidad y la unidad donde atiende." }
 ];
 
 function CategoriesCrud() {

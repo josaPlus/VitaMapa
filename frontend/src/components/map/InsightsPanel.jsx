@@ -93,7 +93,7 @@ function CoverageList({ coverage, filters, onFocusZone, onToggleZoneFilter, onEd
 
             {open === zone.id && (
               <ul className="mini-list">
-                {zone.units.length === 0 && <li className="muted">Sin unidades dentro del polígono</li>}
+                {zone.units.length === 0 && <li className="muted">Sin unidades dentro de esta zona</li>}
                 {zone.units.map((unit) => (
                   <li key={unit.id}>
                     <button onClick={() => onFocusUnit(focusPayload(unit))}>
