@@ -17,7 +17,10 @@ function toForm(unit) {
  *  edit    -> formulario para editar ahí mismo
  *  confirm -> confirmación antes de eliminar
  */
-export default function UnitPopup({ unit, staff = [], categories, onSave, onDelete, onResize }) {
+export default function UnitPopup({
+  unit, staff = [], categories, onSave, onDelete, onResize,
+  position, onEditStart, onEditEnd, onPositionChange
+}) {
   const [mode, setMode] = useState("view");
   const [form, setForm] = useState(() => toForm(unit));
   const [error, setError] = useState(null);
@@ -40,11 +43,21 @@ export default function UnitPopup({ unit, staff = [], categories, onSave, onDele
     setForm(toForm(unit));
     setError(null);
     setMode("edit");
+    onEditStart?.();
+  }
+
+  function cancelEdit() {
+    setMode("view");
+    setError(null);
+    onEditEnd?.();
+  }
+
+  function updateCoord(field) {
+    return (event) => onPositionChange?.({ ...position, [field]: event.target.value });
   }
 
   async function handleSave(event) {
     event.preventDefault();
-    setBusy(true);
     setError(null);
 
     // solo se mandan los campos que cambiaron (PATCH)
@@ -53,15 +66,28 @@ export default function UnitPopup({ unit, staff = [], categories, onSave, onDele
       Object.entries(form).filter(([key, value]) => value !== original[key])
     );
 
+    // coordenadas: se mandan solo si el marcador se movió o se escribieron otras
+    if (position) {
+      const newLat = Number(position.lat);
+      const newLng = Number(position.lng);
+      if (position.lat === "" || position.lng === "" || !Number.isFinite(newLat) || !Number.isFinite(newLng)) {
+        setError({ message: "Las coordenadas deben ser números válidos" });
+        return;
+      }
+      if (Math.abs(newLat - lat) > 1e-7) changes.latitude = newLat;
+      if (Math.abs(newLng - lng) > 1e-7) changes.longitude = newLng;
+    }
+
     if (Object.keys(changes).length === 0) {
-      setMode("view");
-      setBusy(false);
+      cancelEdit();
       return;
     }
 
+    setBusy(true);
     try {
       await onSave(unit.id, changes);
       setMode("view");
+      onEditEnd?.();
     } catch (err) {
       setError(err);
     } finally {
@@ -159,10 +185,25 @@ export default function UnitPopup({ unit, staff = [], categories, onSave, onDele
             <span>Teléfono</span>
             <input value={form.phone} onChange={update("phone")} placeholder="Opcional" />
           </label>
+          {position && (
+            <>
+              <div className="field-row">
+                <label className="field">
+                  <span>Latitud</span>
+                  <input className="mono" value={position.lat} onChange={updateCoord("lat")} required />
+                </label>
+                <label className="field">
+                  <span>Longitud</span>
+                  <input className="mono" value={position.lng} onChange={updateCoord("lng")} required />
+                </label>
+              </div>
+              <small className="hint">Arrastra el marcador en el mapa o escribe las coordenadas para moverla.</small>
+            </>
+          )}
 
           <div className="unit-card__actions">
             <button className="btn btn--sm btn--primary" disabled={busy}>{busy ? "Guardando…" : "Guardar"}</button>
-            <button type="button" className="btn btn--sm btn--ghost" onClick={() => setMode("view")}>Cancelar</button>
+            <button type="button" className="btn btn--sm btn--ghost" onClick={cancelEdit}>Cancelar</button>
           </div>
         </form>
       )}

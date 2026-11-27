@@ -47,11 +47,23 @@ function FocusController({ focus, markerRefs }) {
   return null;
 }
 
+const roundCoord = (value) => Math.round(value * 1e6) / 1e6;
+
 function UnitMarker({ unit, categories, staff, highlighted, onUpdate, onDelete, registerRef }) {
   const markerRef = useRef(null);
   // cada vez que se abre el popup se vuelve a montar su contenido en modo "ficha"
   const [openCount, setOpenCount] = useState(0);
   const [lng, lat] = unit.location.coordinates;
+
+  // posición en edición: null = no se está editando; mientras se edita el marcador se puede arrastrar
+  const [editPos, setEditPos] = useState(null);
+  const editing = editPos !== null;
+  const validEdit = editing && Number.isFinite(Number(editPos.lat)) && Number.isFinite(Number(editPos.lng))
+    && editPos.lat !== "" && editPos.lng !== "";
+  const position = validEdit ? [Number(editPos.lat), Number(editPos.lng)] : [lat, lng];
+
+  const startMove = useCallback(() => setEditPos({ lat, lng }), [lat, lng]);
+  const stopMove = useCallback(() => setEditPos(null), []);
 
   useEffect(() => {
     registerRef(unit.id, markerRef.current);
@@ -65,9 +77,19 @@ function UnitMarker({ unit, categories, staff, highlighted, onUpdate, onDelete, 
   return (
     <Marker
       ref={markerRef}
-      position={[lat, lng]}
+      position={position}
+      draggable={editing}
+      autoPan={editing}
       icon={unitIcon(unit.category, unit.status, highlighted)}
-      eventHandlers={{ popupopen: () => setOpenCount((count) => count + 1) }}
+      eventHandlers={{
+        popupopen: () => setOpenCount((count) => count + 1),
+        popupclose: stopMove,
+        // al soltar el marcador se guarda la nueva posición en el formulario del popup
+        dragend: (event) => {
+          const { lat: newLat, lng: newLng } = event.target.getLatLng();
+          setEditPos({ lat: roundCoord(newLat), lng: roundCoord(newLng) });
+        }
+      }}
     >
       <Tooltip direction="top" offset={[0, -18]} className="unit-tip">{unit.name}</Tooltip>
       {/* el padding evita que el popup quede debajo de la barra de filtros flotante */}
@@ -80,6 +102,10 @@ function UnitMarker({ unit, categories, staff, highlighted, onUpdate, onDelete, 
           onSave={onUpdate}
           onDelete={onDelete}
           onResize={resize}
+          position={editPos}
+          onEditStart={startMove}
+          onEditEnd={stopMove}
+          onPositionChange={setEditPos}
         />
       </Popup>
     </Marker>
